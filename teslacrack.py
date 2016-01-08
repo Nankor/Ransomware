@@ -35,10 +35,10 @@ known_keys = {
     b'146153BECBE89A01789099938B2D68D13A1D10DD8E684664B157ACDBA66CAEB52F1E950FEF1DC3E7D90DE35DD90EA0DDF543D407D950174B97A7D8537AC6D6E1': b'\xe7\x03\xdd\x05\x27\x32\x2e\xc6\x35\x6f\xe7\x55\x92\xc6\xb4\x02\x05\x26\xf8\x0c\xd7\x60\xf6\xda\xf1\xd0\xd4\x5b\xd5\x5d\xfc\x95'
 }
 
-extension = '.vvv'
+extensions = ('.aaa', '.vvv', '.ccc')
 # tesla crypt ile şifrelenen dosyaların bilinen başlanğıç değerleri
 known_file_magics = [b'\xde\xad\xbe\xef\x04', b'\x00\x00\x00\x00\x04']
-# bu ne içindi?
+# açılabildi ise şifreli dosyayı sil
 delete = False
 
 unknown_keys = {}
@@ -52,12 +52,15 @@ def fix_key(key):
 
 def decrypt_file(path):
     try:
+        # bu dosya için silme işlemi gerçekleştirilecek mi?
         do_unlink = False
+        # şifreli dosya aç 
         with open(path, "rb") as fin:
+            # ve ilk 414 bytelık headar bilgisini oku
             header = fin.read(414)
-            
+            # ilk beş byte ı kontrol et (teslaCrypt in aynı versiyonu için aynı olması lazım)
             if header[:5] not in known_file_magics:
-                print(path + " desteklenen bir TeslaCrypt ile crypt edilmemiş.")
+                print(path + " desteklenen bir TeslaCrypt ile crypt edilmemis.")
                 return
             
             if header[0x108:0x188].rstrip(b'\0') not in known_keys:
@@ -65,7 +68,7 @@ def decrypt_file(path):
                     unknown_keys[header[0x108:0x188].rstrip(b'\0')] = path
                 #if header[0x45:0xc5].rstrip(b'\0') not in unknown_btkeys:
                 #    unknown_btkeys[header[0x45:0xc5].rstrip(b'\0')] = path
-                print("Decrypt işlemi başarısız {}, bilinmeyen anahtar".format(path))
+                print("Decrypt islemi basarisiz {}, bilinmeyen anahtar".format(path))
                 return
             
             decryptor = AES.new(fix_key(known_keys[header[0x108:0x188].rstrip(b'\0')]), AES.MODE_CBC, header[0x18a:0x19a])
@@ -79,11 +82,11 @@ def decrypt_file(path):
                 if delete:
                     do_unlink = True
             else:
-                print("Decrypt yapılmıyor {}, decrypt edilmiş hali zaten mevcut".format(path))
+                print("Decrypt yapilmiyor {}, decrypt edilmis hali zaten mevcut".format(path))
         if do_unlink:
             os.unlink(path)
     except Exception:
-        print("Decrypt işlemi hatası {}, lütfen yeniden deneyin".format(path))
+        print("Decrypt hatası {}, lutfen yeniden deneyin".format(path))
         
 def traverse_directory(path):
     try:
@@ -94,10 +97,10 @@ def traverse_directory(path):
             if os.path.isdir(posixpath.join(path, entry)):
                 traverse_directory(posixpath.join(path, entry))
             # TODO add other known extensions
-            elif entry.endswith(extension) and os.path.isfile(posixpath.join(path, entry)):
+            elif entry.endswith(extensions) and os.path.isfile(posixpath.join(path, entry)):
                 decrypt_file(posixpath.join(path, entry))
     except Exception as e:
-        print("Ulaşılamıyor: " + path)
+        print("Ulasilamiyor: " + path)
     
 def main(args):
     path = '.'
@@ -112,7 +115,7 @@ def main(args):
     traverse_directory(path)
     if unknown_keys:
         # print("Software has encountered the following unknown AES keys, please crack them first using msieve:")
-        print("Uygulama bilinmeyen AES anahtarlarına rastladı:")
+        print("Uygulama bilinmeyen AES anahtarlarina rastladi:")
         for key in unknown_keys:
             print(key.decode() + " found in " + unknown_keys[key])
         #print("Alternatively, you can crack the following Bitcoin key(s) using msieve, and use them with TeslaDecoder:")
