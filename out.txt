@@ -1,0 +1,14 @@
+Not decrypting ./CihanErdem/5-Resolution 1888 (2009).pdf.vvv, decrypted copy already exists
+Decrypting ./HüseyinYavuz/ALÝM AY 2011 DEFTER-Ý KEBÝR.xls.vvv
+Decrypting ./HüseyinYavuz/YALÇIN KARATEPE YEVMÝYE DEFTER SAYFASI.pdf.vvv
+Decrypting ./HüseyinYavuz/ÝL-BE ORTAKLIK ÝMZA BEYANI.jpg.vvv
+Not decrypting ./NuhSanli/ODA DUZENI.xls.vvv, decrypted copy already exists
+Not decrypting ./NuhSanli/OkullarModulTanitim.pdf.vvv, decrypted copy already exists
+Not decrypting ./NuhSanli/SEMÝNER.docx.vvv, decrypted copy already exists
+Cannot decrypt ./ÝbrahimÖzçelik/KASA 2014.xls.vvv, unknown key
+Cannot decrypt ./ÝbrahimÖzçelik/KASA 2015.xls.vvv, unknown key
+Cannot decrypt ./ÝbrahimÖzçelik/ÇEK DÖKÜMÜ..xls.vvv, unknown key
+Software has encountered the following unknown AES keys, please crack them first using msieve:
+296516D14A0C099FCB4F466F78F708A0254A1E1F8FDD37986AF131E09A18590FE9A78F6DB2FC56D949278B6AE9291C0AD407AFDC0B14810B96D284E7255D5E8C found in ./ÝbrahimÖzçelik/KASA 2014.xls.vvv
+Alternatively, you can crack the following Bitcoin key(s) using msieve, and use them with TeslaDecoder:
+497BDD149DB20876CE91A785B823FD01143D2B2768697B15C505D808D158794ECCA2D6D263ABECB2A8CF937DC2CA8AAA57C79442C3F65A17B51CD6D1F41930D0 found in ./ÝbrahimÖzçelik/KASA 2014.xls.vvv
